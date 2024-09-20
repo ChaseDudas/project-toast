@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Button from '../Button';
-import Toast from '../Toast';
+import ToastShelf from '../ToastShelf/ToastShelf';
 
 import styles from './ToastPlayground.module.css';
 
@@ -10,10 +10,11 @@ const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
 function ToastPlayground() {
   const [message, setMessage] = React.useState('');
   const [variant, setVariant] = React.useState(VARIANT_OPTIONS[0]);
+  const [isToastVisible, setIsToastVisible] = React.useState(false);
 
   function handlePopToast() {
-    // Pop toast with message and variant
     console.log('Pop toast with message:', message, 'and variant:', variant);
+    setIsToastVisible(true);
   }
 
   return (
@@ -23,7 +24,7 @@ function ToastPlayground() {
         <h1>Toast Playground</h1>
       </header>
 
-      <Toast message={message} variant={variant} />
+      {/* <ToastShelf /> */}
 
       <div className={styles.controlsWrapper}>
         <div className={styles.row}>
