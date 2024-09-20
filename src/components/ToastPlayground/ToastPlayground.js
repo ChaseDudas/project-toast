@@ -10,11 +10,21 @@ const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
 function ToastPlayground() {
   const [message, setMessage] = React.useState('');
   const [variant, setVariant] = React.useState(VARIANT_OPTIONS[0]);
-  const [isToastVisible, setIsToastVisible] = React.useState(false);
+  const [toasts, setToasts] = React.useState([]);
+  console.log('toasts:', toasts);
 
-  function handlePopToast() {
+  function handleSubmit(e) {
+    e.preventDefault();
+
     console.log('Pop toast with message:', message, 'and variant:', variant);
-    setIsToastVisible(true);
+    const nextToasts = [...toasts, { message, variant, id: crypto.randomUUID() }];
+    setToasts(nextToasts);
+  }
+
+  function handleDismissToast(id) {
+    console.log('Dismiss toast with id:', id);
+    const nextToasts = toasts.filter((t) => t.id !== id);
+    setToasts(nextToasts);
   }
 
   return (
@@ -24,9 +34,9 @@ function ToastPlayground() {
         <h1>Toast Playground</h1>
       </header>
 
-      {/* <ToastShelf /> */}
+      <ToastShelf toasts={toasts} handleDismiss={handleDismissToast} />
 
-      <div className={styles.controlsWrapper}>
+      <form className={styles.controlsWrapper} onSubmit={handleSubmit}>
         <div className={styles.row}>
           <label
             htmlFor="message"
@@ -71,10 +81,10 @@ function ToastPlayground() {
           <div
             className={`${styles.inputWrapper} ${styles.radioWrapper}`}
           >
-            <Button onClick={handlePopToast}>Pop Toast!</Button>
+            <Button type="submit">Pop Toast!</Button>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 }
